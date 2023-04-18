@@ -1,5 +1,4 @@
 package com.library.utility;
-
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 
@@ -7,9 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-
-public class LibraryAPI_Util {
-
+public class LibraryAPI_Util
+{
 
     /**
      * Return TOKEN as String by using provided username from /token endpoint
@@ -20,7 +18,7 @@ public class LibraryAPI_Util {
 
 
         String email=ConfigurationReader.getProperty(userType+"_username");
-        String password="libraryUser";
+        String password=ConfigurationReader.getProperty(userType+"_password");
 
 
 
@@ -32,7 +30,7 @@ public class LibraryAPI_Util {
     public static String getToken(String email,String password){
 
 
-        return given()
+        String token=given()
                 .contentType(ContentType.URLENC)
                 .formParam("email" , email)
                 .formParam("password" , password).
@@ -41,6 +39,11 @@ public class LibraryAPI_Util {
                 .prettyPeek()
                 .then().statusCode(200)
                 .extract().jsonPath().getString("token");
+
+        System.out.println("===============");
+        System.out.println(token);
+        System.out.println("===============");
+        return token;
 
 
 
